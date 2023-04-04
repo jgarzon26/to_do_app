@@ -15,7 +15,7 @@ class DefaultTheme {
         ),
         titleMedium: TextStyle(
           fontSize: 16,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.normal,
           color: Colors.black,
         ),
         bodyLarge: TextStyle(

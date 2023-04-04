@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_app/screens/task_main/widgets/header.dart';
 
 class TaskMain extends StatelessWidget {
   const TaskMain({Key? key}) : super(key: key);
@@ -6,8 +7,15 @@ class TaskMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('ToDo App'),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Header(
+              numberOfTasks: 10,
+              numberOfCompletedTasks: 10,
+            ),
+          ],
+        ),
       ),
     );
   }
