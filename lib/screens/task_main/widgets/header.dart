@@ -11,11 +11,13 @@ class Header extends StatelessWidget {
     required this.numberOfCompletedTasks,
   });
 
+  final double _minHeightCheck = 0.01;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       color: kBackgroundLightColor,
-      height: MediaQuery.of(context).size.height * 0.4,
+      height: MediaQuery.of(context).size.height * 0.35,
       child: Align(
         alignment: Alignment.center,
         child: UnconstrainedBox(

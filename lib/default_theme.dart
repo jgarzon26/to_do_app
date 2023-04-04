@@ -4,8 +4,7 @@ import 'package:to_do_app/constants.dart';
 class DefaultTheme {
   static ThemeData buildThemeData() {
     return ThemeData(
-      scaffoldBackgroundColor: kBackgroundColor,
-      primaryColor: kBackgroundColor,
+      scaffoldBackgroundColor: kBackgroundLightColor,
       fontFamily: 'PT Sans',
       textTheme: const TextTheme(
         titleLarge: TextStyle(
@@ -30,11 +29,10 @@ class DefaultTheme {
 
   static AppBarTheme _buildAppBarThemeData() {
     return const AppBarTheme(
-      color: kBackgroundColor,
+      color: Colors.transparent,
       elevation: 0,
       iconTheme: IconThemeData(
         color: Colors.white,
-        size: 20,
       ),
       titleTextStyle: TextStyle(
         fontFamily: 'PT Sans',
