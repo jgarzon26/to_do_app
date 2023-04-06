@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do_app/components/task_tile.dart';
 import 'package:to_do_app/constants.dart';
 import 'package:to_do_app/providers/HeaderProvider.dart';
+import 'package:to_do_app/providers/OverallTaskProvider.dart';
 import 'package:to_do_app/screens/task_main/widgets/header.dart';
-
-import '../../components/task_tile.dart';
 
 class TaskMain extends StatefulWidget {
   const TaskMain({Key? key}) : super(key: key);
@@ -77,12 +78,11 @@ class _TaskMainState extends State<TaskMain> {
                 numberOfTasks: 10,
                 numberOfCompletedTasks: 5,
               ),
-              SliverToBoxAdapter(
+              SliverFillRemaining(
                 child: Container(
-                  //temp height
-                  height: 1000,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
+                    vertical: 20,
                   ),
                   decoration: const BoxDecoration(
                     color: kBackgroundColor,
@@ -91,40 +91,50 @@ class _TaskMainState extends State<TaskMain> {
                       topRight: Radius.circular(40),
                     ),
                   ),
-                  child: CustomScrollView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    slivers: [
-                      SliverToBoxAdapter(
-                        child: AppBar(
-                          leading: const Icon(Icons.menu),
-                          title: Text(
-                            HeaderProvider().hasAlmostCollapse()
-                                ? 'To Do List'
-                                : "",
+                  child: ChangeNotifierProvider(
+                    create: (_) => OverallTaskProvider(),
+                    child: CustomScrollView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      slivers: [
+                        SliverToBoxAdapter(
+                          child: AppBar(
+                            leading: const Icon(Icons.menu),
+                            title: Text(
+                              HeaderProvider().hasAlmostCollapse()
+                                  ? 'To Do List'
+                                  : "",
+                            ),
+                            actions: [
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.search),
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.more_vert),
+                              ),
+                            ],
                           ),
-                          actions: [
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.search),
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.more_vert),
-                            ),
-                          ],
                         ),
-                      ),
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate((context, index) {
-                          return TaskTile(
-                            title: 'Sample Title',
-                            description:
-                                'Sample Description\n Sample Description\n12345\n 67890',
-                          );
-                        }, childCount: 1),
-                      ),
-                    ],
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final taskProvider =
+                                  context.watch<OverallTaskProvider>();
+                              if (index >= taskProvider.tasks.length) {
+                                return null;
+                              }
+                              return TaskTile(
+                                title: taskProvider.tasks[index].title,
+                                description:
+                                    taskProvider.tasks[index].description,
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
