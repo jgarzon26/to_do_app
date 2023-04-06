@@ -14,16 +14,18 @@ class DefaultTheme {
         ),
         titleMedium: TextStyle(
           fontSize: 16,
-          fontWeight: FontWeight.normal,
+          fontWeight: FontWeight.w700,
           color: Colors.black,
         ),
         bodyLarge: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: Colors.black,
+          height: 1.5,
         ),
       ),
       appBarTheme: _buildAppBarThemeData(),
+      listTileTheme: _buildListTileTheme(),
     );
   }
 
@@ -40,6 +42,13 @@ class DefaultTheme {
         fontSize: 24,
         fontWeight: FontWeight.w700,
       ),
+    );
+  }
+
+  static ListTileThemeData _buildListTileTheme() {
+    return const ListTileThemeData(
+      contentPadding: EdgeInsets.all(defaultPadding),
+      visualDensity: VisualDensity.comfortable,
     );
   }
 }

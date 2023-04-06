@@ -4,6 +4,8 @@ import 'package:to_do_app/constants.dart';
 import 'package:to_do_app/providers/HeaderProvider.dart';
 import 'package:to_do_app/screens/task_main/widgets/header.dart';
 
+import '../../components/task_tile.dart';
+
 class TaskMain extends StatefulWidget {
   const TaskMain({Key? key}) : super(key: key);
 
@@ -79,6 +81,9 @@ class _TaskMainState extends State<TaskMain> {
                 child: Container(
                   //temp height
                   height: 1000,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                  ),
                   decoration: const BoxDecoration(
                     color: kBackgroundColor,
                     borderRadius: BorderRadius.only(
@@ -109,6 +114,15 @@ class _TaskMainState extends State<TaskMain> {
                             ),
                           ],
                         ),
+                      ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate((context, index) {
+                          return TaskTile(
+                            title: 'Sample Title',
+                            description:
+                                'Sample Description\n Sample Description\n12345\n 67890',
+                          );
+                        }, childCount: 1),
                       ),
                     ],
                   ),
