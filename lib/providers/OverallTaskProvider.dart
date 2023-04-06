@@ -10,6 +10,9 @@ class OverallTaskProvider extends ChangeNotifier {
   UnmodifiableListView<Task> get completedTasks =>
       UnmodifiableListView(_completedTasks);
 
+  int get taskCount => _tasks.length;
+  int get completedTaskCount => _completedTasks.length;
+
   void addTask(Task task) {
     _tasks.add(task);
     notifyListeners();

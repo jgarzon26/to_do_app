@@ -71,28 +71,28 @@ class _TaskMainState extends State<TaskMain> {
       },
       child: Scaffold(
         body: SafeArea(
-          child: CustomScrollView(
-            controller: _mainScrollController,
-            slivers: [
-              const Header(
-                numberOfTasks: 10,
-                numberOfCompletedTasks: 5,
-              ),
-              SliverFillRemaining(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 20,
-                  ),
-                  decoration: const BoxDecoration(
-                    color: kBackgroundColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40),
+          child: ChangeNotifierProvider(
+            create: (context) => OverallTaskProvider(),
+            child: CustomScrollView(
+              controller: _mainScrollController,
+              slivers: [
+                const Header(
+                  numberOfTasks: 10,
+                  numberOfCompletedTasks: 5,
+                ),
+                SliverFillRemaining(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 20,
                     ),
-                  ),
-                  child: ChangeNotifierProvider(
-                    create: (_) => OverallTaskProvider(),
+                    decoration: const BoxDecoration(
+                      color: kBackgroundColor,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(40),
+                        topRight: Radius.circular(40),
+                      ),
+                    ),
                     child: CustomScrollView(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -122,7 +122,7 @@ class _TaskMainState extends State<TaskMain> {
                             (context, index) {
                               final taskProvider =
                                   context.watch<OverallTaskProvider>();
-                              if (index >= taskProvider.tasks.length) {
+                              if (index >= OverallTaskProvider().taskCount) {
                                 return null;
                               }
                               return TaskTile(
@@ -137,8 +137,8 @@ class _TaskMainState extends State<TaskMain> {
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
 import '../../../providers/HeaderProvider.dart';
+import '../../../providers/OverallTaskProvider.dart';
 
 class Header extends StatelessWidget {
   final int numberOfTasks, numberOfCompletedTasks;
@@ -14,6 +16,7 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final taskProvider = context.watch<OverallTaskProvider>();
     return SliverToBoxAdapter(
       child: ValueListenableBuilder(
         valueListenable: HeaderProvider(),
@@ -34,7 +37,7 @@ class Header extends StatelessWidget {
                     Text(
                       HeaderProvider().hasAlmostCollapse()
                           ? ''
-                          : '$numberOfTasks tasks, $numberOfCompletedTasks completed',
+                          : '${taskProvider.taskCount} tasks, ${taskProvider.completedTaskCount} completed',
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ],
