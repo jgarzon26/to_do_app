@@ -7,3 +7,4 @@ const kCheckColor = Color(0xff32db24);
 const kDeleteColor = Color(0xffdb2424);
 
 const defaultPadding = 20.0;
+const defaultIconSize = 30.0;

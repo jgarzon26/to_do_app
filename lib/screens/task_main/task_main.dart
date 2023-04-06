@@ -1,3 +1,5 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -99,7 +101,10 @@ class _TaskMainState extends State<TaskMain> {
                       slivers: [
                         SliverToBoxAdapter(
                           child: AppBar(
-                            leading: const Icon(Icons.menu),
+                            leading: const Icon(
+                              Icons.menu,
+                              size: defaultIconSize,
+                            ),
                             title: Text(
                               HeaderProvider().hasAlmostCollapse()
                                   ? 'To Do List'
@@ -108,11 +113,17 @@ class _TaskMainState extends State<TaskMain> {
                             actions: [
                               IconButton(
                                 onPressed: () {},
-                                icon: const Icon(Icons.search),
+                                icon: const Icon(
+                                  Icons.search,
+                                  size: defaultIconSize,
+                                ),
                               ),
                               IconButton(
                                 onPressed: () {},
-                                icon: const Icon(Icons.more_vert),
+                                icon: const Icon(
+                                  Icons.more_vert,
+                                  size: defaultIconSize,
+                                ),
                               ),
                             ],
                           ),
@@ -139,6 +150,22 @@ class _TaskMainState extends State<TaskMain> {
                 ),
               ],
             ),
+          ),
+        ),
+        bottomNavigationBar: IconTheme(
+          data: const IconThemeData(size: defaultIconSize),
+          child: CurvedNavigationBar(
+            index: 1,
+            items: const [
+              Icon(CupertinoIcons.pen),
+              Icon(Icons.book),
+              Icon(Icons.checklist),
+            ],
+            onTap: (index) {
+              //Handle button tap
+            },
+            backgroundColor: kBackgroundColor,
+            color: kBackgroundLightColor,
           ),
         ),
       ),
