@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:to_do_app/components/task_snackbar.dart';
 import 'package:to_do_app/constants.dart';
 
 import '../../../classes/Task.dart';
@@ -124,6 +125,10 @@ class TaskInput extends PopupRoute {
                             description: _taskDescriptionController.text,
                           ),
                         );
+                    TaskSnackBar.buildSnackBar(
+                      context: context,
+                      textDisplay: "Task Added",
+                    );
                     Navigator.of(context).pop();
                   },
                   child: Text(
