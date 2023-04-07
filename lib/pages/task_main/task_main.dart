@@ -73,55 +73,50 @@ class _TaskMainState extends State<TaskMain> {
       },
       child: Scaffold(
         body: SafeArea(
-          child: ChangeNotifierProvider(
-            create: (context) => OverallTaskProvider(),
-            child: CustomScrollView(
-              controller: _mainScrollController,
-              slivers: [
-                const Header(
-                  numberOfTasks: 10,
-                  numberOfCompletedTasks: 5,
-                ),
-                SliverFillRemaining(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 20,
-                    ),
-                    decoration: const BoxDecoration(
-                      color: kBackgroundColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40),
-                      ),
-                    ),
-                    child: CustomScrollView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      slivers: [
-                        const TaskAppBar(),
-                        SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) {
-                              final taskProvider =
-                                  context.watch<OverallTaskProvider>();
-                              if (index >= taskProvider.taskCount) {
-                                return null;
-                              }
-                              return TaskTile(
-                                title: taskProvider.tasks[index].title,
-                                description:
-                                    taskProvider.tasks[index].description,
-                              );
-                            },
-                          ),
-                        ),
-                      ],
+          child: CustomScrollView(
+            controller: _mainScrollController,
+            slivers: [
+              const Header(
+                numberOfTasks: 10,
+                numberOfCompletedTasks: 5,
+              ),
+              SliverFillRemaining(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 20,
+                  ),
+                  decoration: const BoxDecoration(
+                    color: kBackgroundColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40),
                     ),
                   ),
+                  child: CustomScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    slivers: [
+                      const TaskAppBar(),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            final taskProvider =
+                                context.watch<OverallTaskProvider>();
+                            if (index >= taskProvider.taskCount) {
+                              return null;
+                            }
+                            return TaskTile(
+                              task: taskProvider.tasks[index],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         bottomNavigationBar: IconTheme(

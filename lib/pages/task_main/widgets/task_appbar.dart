@@ -27,7 +27,7 @@ class TaskAppBar extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).push(TaskInput(context));
+              Navigator.of(context).push(TaskInput());
             },
             icon: const Icon(
               Icons.add,

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do_app/components/task_snackbar.dart';
 import 'package:to_do_app/constants.dart';
+import 'package:to_do_app/providers/OverallTaskProvider.dart';
 
 import '../../classes/Task.dart';
 
@@ -7,9 +10,11 @@ class EditTask extends StatefulWidget {
   const EditTask({
     Key? key,
     required this.task,
+    required this.context,
   }) : super(key: key);
 
   final Task task;
+  final BuildContext context;
 
   @override
   State<EditTask> createState() => _EditTaskState();
@@ -49,15 +54,24 @@ class _EditTaskState extends State<EditTask> {
             size: defaultIconSize,
           ),
         ),
-        title: const Text('Edit Task',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 26,
-              fontWeight: FontWeight.w600,
-            )),
+        title: const Text(
+          'Edit Task',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 26,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              widget.context
+                  .read<OverallTaskProvider>()
+                  .removeTask(widget.task, false);
+              TaskSnackBar.buildSnackBar(
+                  context: context, textDisplay: "Task Deleted");
+              Navigator.of(context).pop();
+            },
             icon: const Icon(
               Icons.delete,
               size: defaultIconSize,
@@ -121,7 +135,16 @@ class _EditTaskState extends State<EditTask> {
               FractionallySizedBox(
                 widthFactor: 0.9,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    widget.context.read<OverallTaskProvider>().editTask(
+                          widget.task,
+                          _titleController.text,
+                          _descriptionController.text,
+                        );
+                    TaskSnackBar.buildSnackBar(
+                        context: context, textDisplay: "Task Edited");
+                    Navigator.of(context).pop();
+                  },
                   child: const Text(
                     'SAVE',
                     style: TextStyle(

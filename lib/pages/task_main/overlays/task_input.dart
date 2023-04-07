@@ -10,10 +10,6 @@ class TaskInput extends PopupRoute {
   late final TextEditingController _taskNameController;
   late final TextEditingController _taskDescriptionController;
 
-  final BuildContext _context;
-
-  TaskInput(this._context);
-
   @override
   Color? get barrierColor => Colors.black.withAlpha(0x90);
 
@@ -119,7 +115,7 @@ class TaskInput extends PopupRoute {
                 child: ElevatedButton(
                   style: Theme.of(context).elevatedButtonTheme.style,
                   onPressed: () {
-                    _context.read<OverallTaskProvider>().addTask(
+                    context.read<OverallTaskProvider>().addTask(
                           Task(
                             title: _taskNameController.text,
                             description: _taskDescriptionController.text,

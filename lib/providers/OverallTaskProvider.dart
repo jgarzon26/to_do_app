@@ -18,6 +18,12 @@ class OverallTaskProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void editTask(Task task, String title, String description) {
+    task.title = title;
+    task.description = description;
+    notifyListeners();
+  }
+
   void removeTask(Task task, bool isCompleted) {
     if (isCompleted) {
       _completedTasks.add(task);
