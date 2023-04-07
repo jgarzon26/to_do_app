@@ -21,7 +21,7 @@ class TaskAppBar extends StatelessWidget {
             valueListenable: HeaderProvider(),
             builder: (context, value, child) {
               return Text(
-                HeaderProvider().hasAlmostCollapse() ? 'To Do List' : "",
+                HeaderProvider().hasAlmostCollapse() ? value.title : "",
               );
             }),
         actions: [

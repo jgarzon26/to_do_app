@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../constants.dart';
-import '../../../providers/HeaderProvider.dart';
-import '../../../providers/OverallTaskProvider.dart';
+import 'package:to_do_app/constants.dart';
+import 'package:to_do_app/providers/HeaderProvider.dart';
+import 'package:to_do_app/providers/OverallTaskProvider.dart';
 
 class Header extends StatelessWidget {
-  final int numberOfTasks, numberOfCompletedTasks;
-
   const Header({
     super.key,
-    required this.numberOfTasks,
-    required this.numberOfCompletedTasks,
   });
 
   @override
@@ -31,7 +26,7 @@ class Header extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      HeaderProvider().hasAlmostCollapse() ? '' : 'To Do List',
+                      HeaderProvider().hasAlmostCollapse() ? '' : value.title,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Text(

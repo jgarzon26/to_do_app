@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app/pages/task_main/classes/header_data.dart';
+
+import '../components/task_main/classes/header_data.dart';
 
 enum HeaderState { expanded, collapsed }
 
 class HeaderProvider extends ValueNotifier<HeaderDetail> {
   HeaderProvider._instance()
       : super(
-          HeaderDetail(height: HeaderDetail.maxHeight),
+          HeaderDetail(height: HeaderDetail.maxHeight, title: 'To Do List'),
         );
   static final HeaderProvider _shared = HeaderProvider._instance();
   factory HeaderProvider() => _shared;
 
   bool get hasCollapsed => value.hasCollapsed;
   set hasCollapsed(bool val) => value.hasCollapsed = val;
+
+  set headerTitle(String val) {
+    value.title = val;
+    notifyListeners();
+  }
 
   void subtractHeight(double offset) {
     if (value.height - offset <= HeaderDetail.minHeight) {

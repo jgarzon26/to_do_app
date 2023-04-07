@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:to_do_app/pages/task_main/task_main.dart';
 import 'package:to_do_app/providers/OverallTaskProvider.dart';
 
+import 'components/task_main/task_main.dart';
 import 'default_theme.dart';
 
 main() => runApp(const MyApp());

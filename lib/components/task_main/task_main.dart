@@ -1,13 +1,12 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:provider/provider.dart';
-import 'package:to_do_app/components/task_tile.dart';
+import 'package:to_do_app/components//task_main/widgets/header.dart';
+import 'package:to_do_app/components/task_main/widgets/task_appbar.dart';
 import 'package:to_do_app/constants.dart';
-import 'package:to_do_app/pages/task_main/widgets/header.dart';
-import 'package:to_do_app/pages/task_main/widgets/task_appbar.dart';
 import 'package:to_do_app/providers/HeaderProvider.dart';
-import 'package:to_do_app/providers/OverallTaskProvider.dart';
+
+import '../../pages/to_do_list.dart';
 
 class TaskMain extends StatefulWidget {
   const TaskMain({Key? key}) : super(key: key);
@@ -20,8 +19,14 @@ class _TaskMainState extends State<TaskMain> {
   final ScrollController _mainScrollController = ScrollController();
   final _maxScrollExtent = 30.0;
 
+  late final Widget _currentPage;
+  final _pages = [
+    const ToDoList(),
+  ];
+
   @override
   void initState() {
+    _currentPage = _pages[0];
     _mainScrollController.addListener(() {
       if (_mainScrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -76,10 +81,7 @@ class _TaskMainState extends State<TaskMain> {
           child: CustomScrollView(
             controller: _mainScrollController,
             slivers: [
-              const Header(
-                numberOfTasks: 10,
-                numberOfCompletedTasks: 5,
-              ),
+              const Header(),
               SliverFillRemaining(
                 child: Container(
                   padding: const EdgeInsets.symmetric(
@@ -98,20 +100,7 @@ class _TaskMainState extends State<TaskMain> {
                     shrinkWrap: true,
                     slivers: [
                       const TaskAppBar(),
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            final taskProvider =
-                                context.watch<OverallTaskProvider>();
-                            if (index >= taskProvider.taskCount) {
-                              return null;
-                            }
-                            return TaskTile(
-                              task: taskProvider.tasks[index],
-                            );
-                          },
-                        ),
-                      ),
+                      _currentPage,
                     ],
                   ),
                 ),
@@ -128,7 +117,9 @@ class _TaskMainState extends State<TaskMain> {
               Icon(Icons.checklist),
             ],
             onTap: (index) {
-              //Handle button tap
+              setState(() {
+                _pages[index];
+              });
             },
             backgroundColor: kBackgroundColor,
             color: kBackgroundLightColor,

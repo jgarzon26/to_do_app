@@ -3,6 +3,7 @@ import 'package:uuid/uuid.dart';
 class HeaderDetail {
   final String id = const Uuid().v4();
   double height;
+  String title;
   bool hasCollapsed = false;
 
   static const double minHeight = 50;
@@ -10,5 +11,6 @@ class HeaderDetail {
 
   HeaderDetail({
     required this.height,
+    required this.title,
   });
 }
