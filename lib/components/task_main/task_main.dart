@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:to_do_app/components//task_main/widgets/header.dart';
 import 'package:to_do_app/components/task_main/widgets/task_appbar.dart';
 import 'package:to_do_app/constants.dart';
+import 'package:to_do_app/pages/completed_list.dart';
 import 'package:to_do_app/providers/HeaderProvider.dart';
 
 import '../../pages/to_do_list.dart';
@@ -22,6 +23,7 @@ class _TaskMainState extends State<TaskMain> {
   late final Widget _currentPage;
   final _pages = [
     const ToDoList(),
+    const CompletedList(),
   ];
 
   @override
@@ -119,6 +121,14 @@ class _TaskMainState extends State<TaskMain> {
             onTap: (index) {
               setState(() {
                 _pages[index];
+                switch (index) {
+                  case 0:
+                    HeaderProvider().headerTitle = 'To Do List';
+                    break;
+                  case 1:
+                    HeaderProvider().headerTitle = 'Completed';
+                    break;
+                }
               });
             },
             backgroundColor: kBackgroundColor,
