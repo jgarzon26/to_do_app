@@ -1,13 +1,13 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/components/task_tile.dart';
 import 'package:to_do_app/constants.dart';
+import 'package:to_do_app/pages/task_main/widgets/header.dart';
+import 'package:to_do_app/pages/task_main/widgets/task_appbar.dart';
 import 'package:to_do_app/providers/HeaderProvider.dart';
 import 'package:to_do_app/providers/OverallTaskProvider.dart';
-import 'package:to_do_app/screens/task_main/widgets/header.dart';
 
 class TaskMain extends StatefulWidget {
   const TaskMain({Key? key}) : super(key: key);
@@ -99,41 +99,13 @@ class _TaskMainState extends State<TaskMain> {
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       slivers: [
-                        SliverToBoxAdapter(
-                          child: AppBar(
-                            leading: const Icon(
-                              Icons.menu,
-                              size: defaultIconSize,
-                            ),
-                            title: Text(
-                              HeaderProvider().hasAlmostCollapse()
-                                  ? 'To Do List'
-                                  : "",
-                            ),
-                            actions: [
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.search,
-                                  size: defaultIconSize,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.more_vert,
-                                  size: defaultIconSize,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        const TaskAppBar(),
                         SliverList(
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
                               final taskProvider =
                                   context.watch<OverallTaskProvider>();
-                              if (index >= OverallTaskProvider().taskCount) {
+                              if (index >= taskProvider.taskCount) {
                                 return null;
                               }
                               return TaskTile(
@@ -155,9 +127,8 @@ class _TaskMainState extends State<TaskMain> {
         bottomNavigationBar: IconTheme(
           data: const IconThemeData(size: defaultIconSize),
           child: CurvedNavigationBar(
-            index: 1,
+            animationDuration: const Duration(milliseconds: 300),
             items: const [
-              Icon(CupertinoIcons.pen),
               Icon(Icons.book),
               Icon(Icons.checklist),
             ],

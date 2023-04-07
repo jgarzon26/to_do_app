@@ -26,6 +26,8 @@ class DefaultTheme {
       ),
       appBarTheme: _buildAppBarThemeData(),
       listTileTheme: _buildListTileTheme(),
+      inputDecorationTheme: _buildInputDecorationTheme(),
+      elevatedButtonTheme: _buildElevatedButtonTheme(),
     );
   }
 
@@ -49,6 +51,27 @@ class DefaultTheme {
     return const ListTileThemeData(
       contentPadding: EdgeInsets.all(defaultPadding),
       visualDensity: VisualDensity.comfortable,
+    );
+  }
+
+  static InputDecorationTheme _buildInputDecorationTheme() {
+    return InputDecorationTheme(
+      labelStyle: TextStyle(
+        color: Colors.black.withOpacity(0.5),
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+      ),
+    );
+  }
+
+  static ElevatedButtonThemeData _buildElevatedButtonTheme() {
+    return ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: kBackgroundColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
     );
   }
 }

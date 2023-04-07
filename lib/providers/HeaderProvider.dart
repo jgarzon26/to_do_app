@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app/screens/task_main/classes/header_data.dart';
+import 'package:to_do_app/pages/task_main/classes/header_data.dart';
 
 enum HeaderState { expanded, collapsed }
 
