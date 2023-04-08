@@ -21,7 +21,10 @@ class TaskPage extends StatelessWidget {
       child: CustomScrollView(
         controller: _secondScrollController,
         physics: HeaderProvider().hasCollapsed
-            ? const AlwaysScrollableScrollPhysics()
+            ? const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+                decelerationRate: ScrollDecelerationRate.fast,
+              )
             : const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         slivers: [
