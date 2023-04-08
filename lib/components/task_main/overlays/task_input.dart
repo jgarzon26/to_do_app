@@ -114,19 +114,22 @@ class TaskInput extends PopupRoute {
                 widthFactor: 0.8,
                 child: ElevatedButton(
                   style: Theme.of(context).elevatedButtonTheme.style,
-                  onPressed: () {
-                    context.read<OverallTaskProvider>().addTask(
-                          Task(
-                            title: _taskNameController.text,
-                            description: _taskDescriptionController.text,
-                          ),
-                        );
-                    TaskSnackBar.buildSnackBar(
-                      context: context,
-                      textDisplay: "Task Added",
-                    );
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: _taskNameController.text.isNotEmpty &&
+                          _taskDescriptionController.text.isNotEmpty
+                      ? () {
+                          context.read<OverallTaskProvider>().addTask(
+                                Task(
+                                  title: _taskNameController.text,
+                                  description: _taskDescriptionController.text,
+                                ),
+                              );
+                          TaskSnackBar.buildSnackBar(
+                            context: context,
+                            textDisplay: "Task Added",
+                          );
+                          Navigator.of(context).pop();
+                        }
+                      : null,
                   child: Text(
                     'Add'.toUpperCase(),
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(

@@ -135,16 +135,19 @@ class _EditTaskState extends State<EditTask> {
               FractionallySizedBox(
                 widthFactor: 0.9,
                 child: ElevatedButton(
-                  onPressed: () {
-                    widget.context.read<OverallTaskProvider>().editTask(
-                          widget.task,
-                          _titleController.text,
-                          _descriptionController.text,
-                        );
-                    TaskSnackBar.buildSnackBar(
-                        context: context, textDisplay: "Task Edited");
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: _titleController.text.isNotEmpty &&
+                          _descriptionController.text.isNotEmpty
+                      ? () {
+                          widget.context.read<OverallTaskProvider>().editTask(
+                                widget.task,
+                                _titleController.text,
+                                _descriptionController.text,
+                              );
+                          TaskSnackBar.buildSnackBar(
+                              context: context, textDisplay: "Task Edited");
+                          Navigator.of(context).pop();
+                        }
+                      : null,
                   child: const Text(
                     'SAVE',
                     style: TextStyle(
