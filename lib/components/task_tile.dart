@@ -106,11 +106,23 @@ class TaskTile extends StatelessWidget {
           ),
           endActionPane: ActionPane(
             dismissible: DismissiblePane(
-              onDismissed: () {
-                context.read<OverallTaskProvider>().removeTask(task, false);
-                TaskSnackBar.buildSnackBar(
-                    context: context, textDisplay: "Task Deleted");
-              },
+              onDismissed: !isCompleted
+                  ? () {
+                      context
+                          .read<OverallTaskProvider>()
+                          .removeTask(task, false);
+                      TaskSnackBar.buildSnackBar(
+                          context: context, textDisplay: "Task Deleted");
+                    }
+                  : () {
+                      context
+                          .read<OverallTaskProvider>()
+                          .removeCompletedTask(task);
+                      TaskSnackBar.buildSnackBar(
+                        context: context,
+                        textDisplay: "Task Deleted",
+                      );
+                    },
             ),
             motion: const ScrollMotion(),
             extentRatio: 0.25,
