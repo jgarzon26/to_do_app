@@ -95,7 +95,6 @@ class TaskTile extends StatelessWidget {
                         icon: Icons.edit,
                         label: 'Edit',
                       ),
-<<<<<<< HEAD
                     ]
                   : [
                       SlidableAction(
@@ -118,35 +117,6 @@ class TaskTile extends StatelessWidget {
                         label: 'Delete',
                       ),
                     ],
-=======
-                      onPressed: (context) {},
-                      backgroundColor: kDeleteColor,
-                      foregroundColor: Colors.white,
-                      icon: Icons.delete,
-                      label: 'Delete',
-                    ),
-                  ],
-          ),
-          endActionPane: ActionPane(
-            dismissible: DismissiblePane(
-              onDismissed: !isCompleted
-                  ? () {
-                      context
-                          .read<OverallTaskProvider>()
-                          .removeTask(task, false);
-                      TaskSnackBar.buildSnackBar(
-                          context: context, textDisplay: "Task Deleted");
-                    }
-                  : () {
-                      context
-                          .read<OverallTaskProvider>()
-                          .removeCompletedTask(task);
-                      TaskSnackBar.buildSnackBar(
-                        context: context,
-                        textDisplay: "Task Deleted",
-                      );
-                    },
->>>>>>> AdjustmentsandFixes
             ),
             endActionPane: ActionPane(
               dismissible: DismissiblePane(
