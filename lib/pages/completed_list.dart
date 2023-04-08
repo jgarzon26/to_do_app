@@ -9,18 +9,18 @@ class CompletedList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          final taskProvider = context.watch<OverallTaskProvider>();
-          if (index >= taskProvider.completedTaskCount) {
-            return null;
-          }
-          return TaskTile(
-            task: taskProvider.completedTasks[index],
-          );
-        },
-      ),
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        final taskProvider = context.watch<OverallTaskProvider>();
+        if (index >= taskProvider.completedTaskCount) {
+          return null;
+        }
+        return TaskTile(
+          task: taskProvider.completedTasks[index],
+        );
+      },
     );
   }
 }

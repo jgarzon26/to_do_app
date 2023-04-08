@@ -110,6 +110,9 @@ class TaskTile extends StatelessWidget {
                     onChanged: (value) {
                       setState(() {
                         _checkBox['isCheck'] = value!;
+                        context
+                            .read<OverallTaskProvider>()
+                            .removeTask(task, true);
                       });
                     },
                   );

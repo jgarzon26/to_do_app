@@ -11,18 +11,18 @@ class ToDoList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          final taskProvider = context.watch<OverallTaskProvider>();
-          if (index >= taskProvider.taskCount) {
-            return null;
-          }
-          return TaskTile(
-            task: taskProvider.tasks[index],
-          );
-        },
-      ),
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        final taskProvider = context.watch<OverallTaskProvider>();
+        if (index >= taskProvider.taskCount) {
+          return null;
+        }
+        return TaskTile(
+          task: taskProvider.tasks[index],
+        );
+      },
     );
   }
 }

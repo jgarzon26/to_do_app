@@ -20,15 +20,10 @@ class _TaskMainState extends State<TaskMain> {
   final ScrollController _mainScrollController = ScrollController();
   final _maxScrollExtent = 30.0;
 
-  late final Widget _currentPage;
-  final _pages = [
-    const ToDoList(),
-    const CompletedList(),
-  ];
+  int _pageIndex = 0;
 
   @override
   void initState() {
-    _currentPage = _pages[0];
     _mainScrollController.addListener(() {
       if (_mainScrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -102,7 +97,15 @@ class _TaskMainState extends State<TaskMain> {
                     shrinkWrap: true,
                     slivers: [
                       const TaskAppBar(),
-                      _currentPage,
+                      SliverToBoxAdapter(
+                        child: IndexedStack(
+                          index: _pageIndex,
+                          children: const [
+                            ToDoList(),
+                            CompletedList(),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -120,7 +123,7 @@ class _TaskMainState extends State<TaskMain> {
             ],
             onTap: (index) {
               setState(() {
-                _pages[index];
+                _pageIndex = index;
                 switch (index) {
                   case 0:
                     HeaderProvider().headerTitle = 'To Do List';
