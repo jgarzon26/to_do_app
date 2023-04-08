@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:to_do_app/components//task_main/widgets/header.dart';
 import 'package:to_do_app/components/task_main/widgets/task_appbar.dart';
+import 'package:to_do_app/components/task_main/widgets/task_page.dart';
 import 'package:to_do_app/constants.dart';
-import 'package:to_do_app/pages/completed_list.dart';
 import 'package:to_do_app/providers/HeaderProvider.dart';
-
-import '../../pages/to_do_list.dart';
 
 class TaskMain extends StatefulWidget {
   const TaskMain({Key? key}) : super(key: key);
@@ -114,25 +112,9 @@ class _TaskMainState extends State<TaskMain> {
                   child: Column(
                     children: [
                       const TaskAppBar(),
-                      Expanded(
-                        child: CustomScrollView(
-                          controller: _secondScrollController,
-                          physics: HeaderProvider().hasCollapsed
-                              ? const AlwaysScrollableScrollPhysics()
-                              : const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          slivers: [
-                            SliverToBoxAdapter(
-                              child: IndexedStack(
-                                index: _pageIndex,
-                                children: const [
-                                  ToDoList(),
-                                  CompletedList(),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                      TaskPage(
+                        secondScrollController: _secondScrollController,
+                        pageIndex: _pageIndex,
                       ),
                     ],
                   ),
