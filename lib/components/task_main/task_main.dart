@@ -18,6 +18,10 @@ class TaskMain extends StatefulWidget {
 
 class _TaskMainState extends State<TaskMain> {
   final ScrollController _mainScrollController = ScrollController();
+  final ScrollController _secondScrollController = ScrollController();
+
+  bool _enableMainScroll = true;
+
   final _maxScrollExtent = 30.0;
 
   int _pageIndex = 0;
@@ -41,6 +45,18 @@ class _TaskMainState extends State<TaskMain> {
         setState(() {
           _mainScrollController.position.setPixels(_maxScrollExtent);
           _mainScrollController.jumpTo(_maxScrollExtent);
+        });
+      }
+    });
+    _secondScrollController.addListener(() {
+      if (_secondScrollController.position.pixels >
+          _secondScrollController.position.minScrollExtent) {
+        setState(() {
+          _enableMainScroll = false;
+        });
+      } else {
+        setState(() {
+          _enableMainScroll = true;
         });
       }
     });
@@ -76,6 +92,9 @@ class _TaskMainState extends State<TaskMain> {
       child: Scaffold(
         body: SafeArea(
           child: CustomScrollView(
+            physics: _enableMainScroll
+                ? const AlwaysScrollableScrollPhysics()
+                : const NeverScrollableScrollPhysics(),
             controller: _mainScrollController,
             slivers: [
               const Header(),
@@ -92,17 +111,26 @@ class _TaskMainState extends State<TaskMain> {
                       topRight: Radius.circular(40),
                     ),
                   ),
-                  child: CustomScrollView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    slivers: [
+                  child: Column(
+                    children: [
                       const TaskAppBar(),
-                      SliverToBoxAdapter(
-                        child: IndexedStack(
-                          index: _pageIndex,
-                          children: const [
-                            ToDoList(),
-                            CompletedList(),
+                      Expanded(
+                        child: CustomScrollView(
+                          controller: _secondScrollController,
+                          physics: HeaderProvider().hasCollapsed
+                              ? const AlwaysScrollableScrollPhysics()
+                              : const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          slivers: [
+                            SliverToBoxAdapter(
+                              child: IndexedStack(
+                                index: _pageIndex,
+                                children: const [
+                                  ToDoList(),
+                                  CompletedList(),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
