@@ -15,10 +15,12 @@ class TaskTile extends StatelessWidget {
   };
 
   final Task task;
+  final bool isCompleted;
 
   TaskTile({
     super.key,
     required this.task,
+    required this.isCompleted,
   });
 
   void goToEditTask(BuildContext context) {
@@ -35,7 +37,7 @@ class TaskTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => goToEditTask(context),
+      onTap: !isCompleted ? () => goToEditTask(context) : () {},
       child: Container(
         margin: const EdgeInsets.symmetric(
           vertical: 15,
@@ -59,21 +61,48 @@ class TaskTile extends StatelessWidget {
           startActionPane: ActionPane(
             motion: const ScrollMotion(),
             extentRatio: 0.25,
-            children: [
-              SlidableAction(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  bottomLeft: Radius.circular(16),
-                ),
-                onPressed: (context) {
-                  goToEditTask(context);
-                },
-                backgroundColor: kCheckColor,
-                foregroundColor: Colors.white,
-                icon: Icons.edit,
-                label: 'Edit',
-              ),
-            ],
+            dismissible: isCompleted
+                ? DismissiblePane(
+                    onDismissed: () {
+                      context
+                          .read<OverallTaskProvider>()
+                          .removeCompletedTask(task);
+                      TaskSnackBar.buildSnackBar(
+                        context: context,
+                        textDisplay: "Task Deleted",
+                      );
+                    },
+                  )
+                : null,
+            children: !isCompleted
+                ? [
+                    SlidableAction(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        bottomLeft: Radius.circular(16),
+                      ),
+                      onPressed: (context) {
+                        goToEditTask(context);
+                      },
+                      backgroundColor: kCheckColor,
+                      foregroundColor: Colors.white,
+                      icon: Icons.edit,
+                      label: 'Edit',
+                    ),
+                  ]
+                : [
+                    SlidableAction(
+                      borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(16),
+                        bottomRight: Radius.circular(16),
+                      ),
+                      onPressed: (context) {},
+                      backgroundColor: kDeleteColor,
+                      foregroundColor: Colors.white,
+                      icon: Icons.delete,
+                      label: 'Delete',
+                    ),
+                  ],
           ),
           endActionPane: ActionPane(
             dismissible: DismissiblePane(
@@ -100,36 +129,64 @@ class TaskTile extends StatelessWidget {
             ],
           ),
           child: ListTile(
-            leading: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                StatefulBuilder(builder: (context, setState) {
-                  return Checkbox(
-                    value: _checkBox['isCheck'],
-                    onChanged: (value) {
-                      setState(() {
-                        _checkBox['isCheck'] = value!;
-                        context
-                            .read<OverallTaskProvider>()
-                            .removeTask(task, true);
-                      });
-                    },
-                  );
-                }),
-              ],
-            ),
+            leading: !isCompleted
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      StatefulBuilder(builder: (context, setState) {
+                        return Checkbox(
+                          value: _checkBox['isCheck'],
+                          onChanged: (value) {
+                            setState(() {
+                              _checkBox['isCheck'] = value!;
+                              context
+                                  .read<OverallTaskProvider>()
+                                  .removeTask(task, true);
+                            });
+                            TaskSnackBar.buildSnackBar(
+                              context: context,
+                              textDisplay: 'Task Completed',
+                            );
+                          },
+                        );
+                      }),
+                    ],
+                  )
+                : null,
             title: Text(
               task.title,
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    decoration: isCompleted ? TextDecoration.lineThrough : null,
+                    letterSpacing: isCompleted ? 3 : null,
+                  ),
             ),
-            subtitle: Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Text(
-                task.description,
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-            ),
+            subtitle: !isCompleted
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Text(
+                      task.description,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  )
+                : null,
+            trailing: isCompleted
+                ? IconButton(
+                    onPressed: () {
+                      context
+                          .read<OverallTaskProvider>()
+                          .removeCompletedTask(task);
+                      TaskSnackBar.buildSnackBar(
+                        context: context,
+                        textDisplay: "Task Deleted",
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      color: kDeleteColor,
+                    ),
+                  )
+                : null,
           ),
         ),
       ),

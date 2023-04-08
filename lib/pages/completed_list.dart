@@ -19,6 +19,7 @@ class CompletedList extends StatelessWidget {
         }
         return TaskTile(
           task: taskProvider.completedTasks[index],
+          isCompleted: true,
         );
       },
     );

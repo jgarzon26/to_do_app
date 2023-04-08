@@ -21,6 +21,7 @@ class ToDoList extends StatelessWidget {
         }
         return TaskTile(
           task: taskProvider.tasks[index],
+          isCompleted: false,
         );
       },
     );
